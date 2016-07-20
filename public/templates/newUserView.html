@@ -1,0 +1,211 @@
+<!-- public/views/userView.html 
+
+		<div ng-controller="UserController as u">
+		</div>
+-->
+
+<div class="col-sm-6 col-sm-offset-3">
+    <div class="well">
+<div ng-if="!user.isEditing">
+    	<form name="userForm" class="form-horizontal" ng-submit="user.createUser(user.newUser)" novalidate>
+            <h3>Create User</h3>
+            <hr>
+            <uib-tabset>
+            <uib-tab heading="Basic Info">
+            <!-- First name field 
+            <div class="form-group" ng-class="{ 'has-error': userForm.firstName.$touched && userForm.firstName.$invalid }">
+            -->
+            <ng-for m="userBasicForm">
+            <br>
+
+            <div class="form-group" ng-class="{ 'has-error': userForm.company.$touched && userForm.company.$invalid }">
+                <label class="col-sm-3 control-label">Company</label>
+                <div class="col-sm-6">
+                <ui-select ng-model="user.selected.value" theme="selectize" append-to-body="false">
+                    <ui-select-match placeholder="Select a company...">
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in (user.companiesArray | filter: $select.search) track by item.id" required>
+                      <strong><div ng-bind-html="item.name | highlight: $select.search"></div></strong>
+                        <small>
+                            <span ng-bind-html="''+item.description | highlight: $select.search"></span>
+                        </small>
+                    </ui-select-choices>
+                </ui-select>
+                </div>
+                <div class="help-block" ng-messages="userForm.company.$error" ng-if="userForm.company.$touched" role="alert">
+                    <div ng-messages-include="genericMessages.html"></div>                
+                </div>
+
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': userForm.firstName.$touched && userForm.firstName.$invalid }">
+                <label class="col-sm-3 control-label">First Name:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="firstName" class="form-control" ng-model="user.newUser.first_name" ng-minlength="3" required>
+                    <div class="help-block" ng-messages="userForm.firstName.$error" ng-if="userForm.firstName.$touched" role="alert">
+                        <div ng-messages-include="genericMessages.html"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- last name field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.lastName.$touched && userForm.lastName.$invalid }">
+                
+                <label class="col-sm-3 control-label">Last Name:</label>
+                <div class="col-sm-6">
+                <input type="text" name="lastName" class="form-control" ng-model="user.newUser.last_name" ng-minlength="3" required>
+                <div class="help-block" ng-messages="userForm.lastName.$error" ng-if="userForm.lastName.$touched">
+                    <div ng-messages-include="genericMessages.html"></div>
+                </div>
+                </div>
+            </div>
+
+            <!-- User name field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.userName.$touched && userForm.userName.$invalid }">
+                
+                <label class="col-sm-3 control-label">Username:</label>
+                <div class="col-sm-6">
+                <input type="text" name="userName" class="form-control" ng-model="user.newUser.user_name" required>
+                <div class="help-block" ng-messages="userForm.userName.$error" ng-if="userForm.userName.$touched">
+                    <div ng-messages-include="genericMessages.html"></div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Password field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.password.$touched && userForm.password.$invalid }">
+                
+                <label class="col-sm-3 control-label">Password:</label>
+                <div class="col-sm-6">
+                <input type="password" name="password" class="form-control" ng-model="user.newUser.password" pattern="(?=.*[0-9])(?=.*[a-zA-Z])(.{6,45})" required>
+                <div class="help-block" ng-messages="userForm.password.$error" ng-if="userForm.password.$touched">
+                    <div ng-messages-include="genericMessages.html"></div>
+                    <div ng-message="pattern">
+                      <small>Password must be between 6 and 45 characters, and include one letter and
+                        one number</small>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- email field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.email.$touched && userForm.email.$invalid }">
+                
+                <label class="col-sm-3 control-label">Email:</label>
+                <div class="col-sm-6">
+                <input type="email" name="email" class="form-control" ng-model="user.newUser.email" required>
+                <div class="help-block" ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
+                  <div ng-messages-include="genericMessages.html"></div>
+                </div>
+                </div>
+            </div>
+
+            <!-- gender field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.gender.$touched && userForm.gender.$invalid }">
+
+                <label class="col-sm-3 control-label">Gender:</label>
+                <div class="col-sm-6">
+                <input type="radio" ng-model="user.newUser.gender" name="gender" value="male" required> Male
+                <input type="radio" ng-model="user.newUser.gender" name="gender" value="female" required> Female                
+                <div class="help-block" ng-messages="userForm.gender.$error" ng-if="userForm.gender.$touched">
+                    <div ng-messages-include="genericMessages.html"></div>
+                </div>
+                </div>
+            </div>
+
+            <!-- birthdate field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.birthdate.$touched && userForm.birthdate.$invalid }">
+                
+                <label class="col-sm-3 control-label">Birth Date:</label>
+                <div class="col-sm-6">
+                <input type="date" name="birthdate" ng-model="user.newUser.birth_date" placeholder="yyyy-MM-dd" min="1900-01-01" max="2016-12-31">
+                <div class="help-block" ng-messages="userForm.birthdate.$error" ng-if="userForm.birthdate.$touched">
+                    <div ng-messages-include="genericMessages.html"></div>
+                </div>
+                </div>
+            </div>
+
+            <!-- height field -->
+            <div class="form-group" ng-class="{ 'has-error': userForm.height.$touched && userForm.height.$invalid }">
+                
+                <label class="col-sm-3 control-label">Height:</label>
+                <div class="col-sm-6">
+                <div class="input-group input-group-lg col-xs-4">
+                    <span class="input-group-addon">cm</span>
+                    <input type="number" name="height" width="100px" class="form-control" ng-model="user.newUser.height" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="1.01" placeholder="Decimal">
+                </div>
+                <div class="help-block" ng-messages="userForm.height.$error" ng-if="userForm.height.$touched">
+                    <div ng-messages-include="genericMessages.html"></div>
+                    <div ng-message="pattern">Must be a valid number with 2 decimal</div>
+                </div>
+
+                </div>
+            </div>
+
+            
+            </ng-for></uib-tab>
+            
+                <uib-tab heading="Characteristics">
+                <ng-for m="userHealthForm">
+                <br>
+                    <div class="row">
+
+                    <div class="form-group col-lg-4" ng-class="{ 'has-error': userForm.commute.$touched && userForm.commute.$invalid }">
+                        <label>Commute:</label>
+                        <input type="text" name="commute" class="form-control" ng-model="user.newUser.commute">
+                        <div class="help-block" ng-messages="userForm.commute.$error" ng-if="userForm.commute.$touched">
+                          <div ng-messages-include="genericMessages.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4" ng-class="{ 'has-error': userForm.breakfast.$touched && userForm.breakfast.$invalid }">
+                        <label>Breakfast:</label>
+                        <input type="text" name="breakfast" class="form-control" ng-model="user.newUser.breakfast">
+                        <div class="help-block" ng-messages="userForm.breakfast.$error" ng-if="userForm.breakfast.$touched">
+                          <div ng-messages-include="genericMessages.html"></div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <div class="row">
+
+                    <div class="form-group col-xs-4" ng-class="{ 'has-error': userForm.hydration.$touched && userForm.hydration.$invalid }">
+                        <label>Hydration on labor:</label>
+                        <input type="text" name="hydration" class="form-control" ng-model="user.newUser.hydration">
+                        <div class="help-block" ng-messages="userForm.hydration.$error" ng-if="userForm.hydration.$touched">
+                          <div ng-messages-include="genericMessages.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-xs-4" ng-class="{ 'has-error': userForm.hydration_amount.$touched && userForm.hydration_amount.$invalid }">
+                        <label>Liters:</label>
+                        <input type="text" name="hydration_amount" class="form-control" ng-model="user.newUser.hydration_amount">
+                        <div class="help-block" ng-messages="userForm.hydration_amount.$error" ng-if="userForm.hydration_amount.$touched">
+                          <div ng-messages-include="genericMessages.html"></div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                
+                </ng-for></uib-tab>
+            </uib-tabset>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a class="btn btn-danger" ui-sref="users()" ng-click="user.cancelEditing()">
+                Cancel
+            </a>
+
+      </form>
+</div>
+
+        <div class="alert alert-danger" ng-if="user.error">
+            <strong>There was an error: </strong>
+            <ul>
+                <li ng-repeat="m in user.error.data.message">{{m}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

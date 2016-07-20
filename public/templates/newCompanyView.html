@@ -1,0 +1,57 @@
+<!-- public/views/userView.html 
+
+		<div ng-controller="UserController as u">
+		</div>
+<div class="col-lg-6">
+-->
+
+<div class="col-sm-6 col-sm-offset-3">
+    <div class="well">
+
+    	<form name="companyForm" class="form-register" ng-submit="company.createCompany(company.newCompany)" novalidate>
+            <h3>Create Company</h3>
+            <hr>
+            <uib-tabset>
+            <uib-tab heading="Basic Info">
+            <!-- First name field 
+            <div class="form-group" ng-class="{ 'has-error': companyForm.name.$touched && companyForm.name.$invalid }">
+            -->
+            <ng-for m="companyBasicForm">
+            <br>
+            <div class="form-group" ng-class="{ 'has-error': companyForm.name.$touched && companyForm.name.$invalid }">
+                <label>Company Name:</label>
+                <input type="text" name="name" class="form-control" ng-model="company.newCompany.name" ng-minlength="3" required>
+                <div class="help-block" ng-messages="companyForm.name.$error" ng-if="companyForm.name.$touched" role="alert">
+                    <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+
+            <!-- last name field -->
+            <div class="form-group" ng-class="{ 'has-error': companyForm.description.$touched && companyForm.description.$invalid }">
+                <label>Description:</label>
+                <input type="text" name="description" class="form-control" ng-model="company.newCompany.description" ng-minlength="3" required>
+                <div class="help-block" ng-messages="companyForm.description.$error" ng-if="companyForm.description.$touched">
+                    <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+
+            
+            </ng-for></uib-tab>
+            
+                
+            </uib-tabset>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a class="btn btn-danger" ui-sref="companies()" ng-click="company.cancelEditing()">
+            Cancel</a>
+
+
+      </form>
+
+        <div class="alert alert-danger" ng-if="user.error">
+            <strong>There was an error: </strong>
+            <ul>
+                <li ng-repeat="m in user.error.data.message">{{m}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

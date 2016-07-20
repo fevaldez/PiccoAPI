@@ -5,3 +5,10 @@ Homestead.yaml
 Homestead.json
 .env
 .env.example
+.env.local
+public/package.json
+public/user/
+public/users.json
+.sublime-project
+.sublime-workspace
+*.BAK

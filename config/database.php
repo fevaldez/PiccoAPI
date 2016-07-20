@@ -66,6 +66,20 @@ return [
             'engine' => null,
         ],
 
+        'mysql_fnr' => [
+            'driver' => 'mysql',
+            'host' => env('DB_FNR_HOST', 'localhost'),
+            'port' => env('DB_FNR_PORT', '3306'),
+            'database' => env('DB_FNR_DATABASE', 'forge'),
+            'username' => env('DB_FNR_USERNAME', 'forge'),
+            'password' => env('DB_FNR_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),

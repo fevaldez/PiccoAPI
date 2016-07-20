@@ -1,0 +1,54 @@
+<div class="col-sm-6 col-sm-offset-3">
+    <div class="well">
+    	<h5>Welcome, {{currentUser.first_name}}</h5>
+        <h3>Companies</h3>    
+
+        <div class="alert alert-success" ng-if="company.success">     
+            <ul>
+                <li ng-repeat="m in company.success.data track by $index">{{m}}</li>
+            </ul>
+        </div>
+        <div class="alert alert-danger" ng-if="company.error">
+            <strong>There was an error: </strong>             
+            <ul>
+                <li ng-repeat="m in company.error.data track by $index">{{m}}</li>
+            </ul>
+        </div>
+
+    <!--GLOBAL FILTER-->
+    <br>
+    <form name="awesomeForm" novalidate ng-submit="company.applyGlobalSearch()">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search term" name="searchTerm" ng-model="company.globalSearchTerm" ng-change="company.applyGlobalSearch()" required>
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+    </form>
+  <br>
+
+    <div class="table-responsive">
+      <a class="btn btn-default btn-sm pull-right" ui-sref="newCompany()" uib-tooltip="Create">
+        <i class="fa fa-plus fa-1x"></i>
+      </a>
+  		<table ng-table="company.tableParams" class="table table-condensed table-striped" show-filter="false">
+
+		    <tr ng-repeat="curCompany in $data">
+	        <td data-title="'Name'" filter="{ name: 'text'}" sortable="'curCompany.name'">
+	            {{curCompany.name}}</td>
+	        <td data-title="'Description'" filter="{ description: 'text'}" sortable="'curCompany.description'">
+	            {{curCompany.description}}</td>
+          <td><a class="btn btn-default btn-sm" ui-sref="editCompany({companyId: curCompany.id})" ng-click="company.storeEditedCompany(curCompany)" uib-tooltip="Edit">
+					<i class="fa fa-pencil-square-o fa-2x"></i></a>
+				  </td>
+		        <td>
+              <button class="btn btn-danger" ng-click="company.deleteCompany(curCompany)" uib-tooltip="Delete">
+  					<i class="fa fa-trash-o fa-lg"></i></button></td></tr></table></div>
+		        
+		    
+		  
+    </div>
+    
+    </div>
