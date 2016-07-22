@@ -1,10 +1,10 @@
-SELECT
-	A.account
-    ,A.description
-    ,Acc.*
-FROM 	accounts as A
-JOIN 
-(            SELECT
+    SELECT
+    	A.account
+        ,A.description
+        ,Acc.*
+    FROM 	accounts as A
+    JOIN 
+        (SELECT
                 A.top_parent_id
                 ,C.id_proyecto
                 ,CASE
@@ -33,7 +33,7 @@ JOIN
                     A.parent_id,
                     A.account_id,
                     A.account,
-                    A.description-- , NULL, NULL, NULL, NULL, NULL
+                    A.description
                 FROM accounts AS A
                 WHERE LENGTH(A.account) = 6
             ) AS AP ON A.parent_id = AP.account_id
@@ -48,6 +48,6 @@ JOIN
 					A.top_parent_id
                     ,C.id_proyecto
                 WITH ROLLUP
-) AS Acc
-ON Acc.top_parent_id =  A.account_id
-JOIN constructions As C ON Acc.id_proyecto = C.id_proyecto
+        ) AS Acc
+    ON Acc.top_parent_id =  A.account_id
+    JOIN constructions As C ON Acc.id_proyecto = C.id_proyecto
