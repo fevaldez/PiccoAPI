@@ -37,8 +37,13 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('accounts/{acc}/bu/{bu}/initialBalance/{startdate}', 'BalanceController@accountInitialBalance');
 	Route::get('accounts/{acc}/bu/{bu}/debitsCredits/{startdate}/{enddate?}', 'BalanceController@accountDebitsCredits');
 	Route::resource('accounts', 'BalanceController', ['only' => [ 'index', 'show'] ]);
+
+	/*
+	Projects
+	*/
 	Route::get('projects/active', 'ProjectController@active');
 	Route::get('projects/active/details', 'ProjectController@activeDetails');
+	Route::get('projects/{id}/accounts', 'ProjectController@accounts');
 	Route::resource('projects', 'ProjectController', ['only' => [ 'index', 'show'] ]);
 
 	Route::get('projects/{id}/income/{active?}', 'ProjectIncomeController@details');
