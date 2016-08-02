@@ -27,24 +27,34 @@ class CashFlowController extends Controller
     {
         $query = "
             SELECT
-            A.account
-            ,A.description
-            ,I.id
-            ,invoice
-            ,invoice_date
-            ,invoice_pay_date
-            ,credit_days
-            ,I.description
-            ,amount
-        FROM pico_bi.invoice_supplier AS I
-        JOIN policies_det as PD
-            ON I.policies_det_id = PD.id_poliza_det
-        JOIN accounts as A
-            ON PD.account_id = A.account_id
-
-        WHERE I.canceled = 0
-        AND I.invoice_pay_date >= DATE_FORMAT(NOW() ,'%Y%m%d')
-        ORDER BY invoice_pay_date;
+                A.account_id
+                ,A.description as parent_account
+                ,flow.*
+            FROM accounts as A
+            JOIN
+            (
+                SELECT
+                    A.account
+                    ,A.parent_id
+                    ,A.top_parent_id
+                    ,A.description
+                    ,I.id
+                    ,invoice
+                    ,invoice_date
+                    ,invoice_pay_date
+                    ,credit_days
+                    ,I.description as supplier
+                    ,amount
+                FROM pico_bi.invoice_supplier AS I
+                JOIN policies_det as PD
+                    ON I.policies_det_id = PD.id_poliza_det
+                JOIN accounts as A
+                    ON PD.account_id = A.account_id
+                WHERE I.canceled = 0
+                AND I.invoice_pay_date >= DATE_FORMAT(NOW() ,'%Y%m%d')
+                ORDER BY invoice_pay_date
+            ) AS flow
+            ON A.account_id = flow.parent_id;
         ";
 
         $results = DB::select(
